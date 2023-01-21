@@ -1,0 +1,17 @@
+{% extends 'tmpl.html' %}
+{% block title %} Main Page {% endblock %}
+{% block content %}
+<p>NAGLOWEK | LOGOWANIE |
+    {% if user.is_authenticated %}
+        Hi {{ user.username }}!
+        <a href="{% url 'logout' %}">Logout</a>
+        <a href="cart/">Shopping cart</a>
+    {% else %}
+        You are not logged in
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+</p>
+<p>MAIN CONTENT | <a href="menu/">MENU</a></p>
+<p>ABOUT</p>
+<p>CONTACT INFO</p>
+{% endblock %}
