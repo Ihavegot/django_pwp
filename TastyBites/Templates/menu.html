@@ -5,6 +5,9 @@
     <title>Tasty Bites Kebab</title>
 </head>
 <body>
-  Menu page
+    Menu page
+    {% for m in menu %}
+        <p>{{m.dishName}}: {{m.dishPrice}} -> {{m.dishDescription}}</p>
+    {% endfor %}
 </body>
 </html>
