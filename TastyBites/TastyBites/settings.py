@@ -119,3 +119,9 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = 'index'  # przekierowanie do widoku main po zalogowaniu
 LOGOUT_REDIRECT_URL = 'index'  # przekierowanie do widoku main po wylogowaniu
+
+INTERNAL_IPS = ['127.0.0.1']
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]

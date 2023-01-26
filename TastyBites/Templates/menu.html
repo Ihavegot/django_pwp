@@ -1,13 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Tasty Bites Kebab</title>
-</head>
-<body>
+{% extends 'tmpl.html' %}
+{% block content %}
     Menu page
     {% for m in menu %}
         <p>{{m.dishName}}: {{m.dishPrice}} -> {{m.dishDescription}}</p>
     {% endfor %}
-</body>
-</html>
+{% endblock %}
