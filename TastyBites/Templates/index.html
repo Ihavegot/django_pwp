@@ -23,14 +23,14 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item active">
-                            <a class="nav-link act text-color-green" href="#">Home <span class="sr-only"></span></a>
+                            <a class="nav-link act text-color-green" href="#">Strona głowna<span class="sr-only"></span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-color-light" href="menu/">Menu</a>
                         </li>
                         {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link text-color-orange" href="{% url 'logout' %}">Log out</a>
+                            <a class="nav-link text-color-orange" href="{% url 'logout' %}">Wyloguj</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-color-orange disabled"
@@ -38,7 +38,7 @@
                         </li>
                         {% else %}
                         <li class="nav-item">
-                            <a class="nav-link text-color-orange" href="{% url 'login' %}">Sign in</a>
+                            <a class="nav-link text-color-orange" href="{% url 'login' %}">Zaloguj</a>
                         </li>
                         {% endif %}
                     </ul>
@@ -88,7 +88,7 @@
         </div>
         <span class="info">
             <h1>Kontakt</h1>
-            <h4>Jeśli chcesz sięz nami skontaktować zrób to po przez e-mail lub telefon!</h4>
+            <h4>Jeśli chcesz sięz nami skontaktować zrób to poprzez e-mail lub telefon!</h4>
             <h4>E-mail: tastybiteskebab@tbk.pl</h4>
             <h4>Telefon: 987654321</h4>
         </span>

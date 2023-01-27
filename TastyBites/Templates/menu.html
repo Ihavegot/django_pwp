@@ -23,14 +23,14 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                         <li class="nav-item active">
-                            <a class="nav-link text-color-green" href="/">Home <span class="sr-only"></span></a>
+                            <a class="nav-link text-color-green" href="/">Strona główna<span class="sr-only"></span></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link act text-color-light" href="menu/">Menu</a>
                         </li>
                         {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link text-color-orange" href="{% url 'logout' %}">Log out</a>
+                            <a class="nav-link text-color-orange" href="{% url 'logout' %}">Wyloguj</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-color-orange disabled"
@@ -38,7 +38,7 @@
                         </li>
                         {% else %}
                         <li class="nav-item">
-                            <a class="nav-link text-color-orange" href="{% url 'login' %}">Sign in</a>
+                            <a class="nav-link text-color-orange" href="{% url 'login' %}">Zaloguj</a>
                         </li>
                         {% endif %}
                     </ul>
@@ -52,24 +52,22 @@
         </path>
     </svg>
     <div class="text-center solid-bg">
+        <h1 style="font-size: 4rem; padding-bottom: 50px;">
+            <span class="text-color-green-border">Ce</span><span class="text-color-light-border">nn</span><span
+                class="text-color-orange-border">ik</span>
+        </h1>
         <div class="d-flex justify-content-center align-items-center">
             <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">Nazwa</th>
-                    <th scope="col">Cena</th>
-                    <th scope="col">Opis</th>
-                    <th scope="col">Zdjęcie</th>
-                </tr>
-                </thead>
                 <tbody>
                 {% for m in menu %}
-                    <tr>
-                        <td>{{m.dishName}}</td>
-                        <td>{{m.dishPrice}}</td>
-                        <td>{{m.dishDescription}}</td>
-                        <td>{{m.dishPicture}}</td>
-                    </tr>
+                <tr>
+                    <td>
+                        <img src="{% static 'img/' %}{{m.dishPicture}}" class="img-thumbnail" width="30%">
+                    </td>
+                    <td><h3>{{m.dishName}}</h3></td>
+                    <td><h3>{{m.dishPrice}} PLN</h3></td>
+                    <td><h5><i>{{m.dishDescription}}</i></h5></td>
+                </tr>
                 {% endfor %}
                 </tbody>
             </table>
