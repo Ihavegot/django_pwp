@@ -7,7 +7,7 @@ from .models import Menu
 
 def menu(request):
     dishes = Menu.objects.all()
-    template = render_to_string('menu.html', {'menu': dishes})
+    template = render_to_string('menu.html', {'menu': dishes, 'user': request.user})
     return HttpResponse(template)
 
 
