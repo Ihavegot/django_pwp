@@ -13,7 +13,7 @@ def menu(request):
 
 @login_required(login_url='')
 def shoppingCart(request):
-    template = render_to_string('cart.html')
+    template = render_to_string('cart.html', {'user': request.user})
     return HttpResponse(template)
 
 

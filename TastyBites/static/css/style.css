@@ -47,7 +47,7 @@ body{
 }
 
 .font-header-fit{
-    font-size: 30px;
+    font-size: 25px;
     font-weight: 100;
 }
 
@@ -120,6 +120,26 @@ body{
 }
 
 .login-btn:hover{
+    border: 2px solid var(--main-color-dark);
+    background-color: var(--main-color-orange);
+    color: var(--main-color-green);
+    font-weight: bold;
+}
+
+
+.menu-row{
+    border-top: 1px solid var(--main-color-dark);
+    padding: 2rem;
+}
+
+.cart-btn{
+    border: 2px solid var(--main-color-green);
+    background-color: var(--main-color-dark);
+    color: var(--main-color-green);
+    font-weight: bold;
+}
+
+.cart-btn:hover{
     border: 2px solid var(--main-color-dark);
     background-color: var(--main-color-orange);
     color: var(--main-color-dark);

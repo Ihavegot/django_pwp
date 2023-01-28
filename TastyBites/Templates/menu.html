@@ -2,6 +2,14 @@
 {% block content %}
 {% load static %}
 <body>
+<script>
+    let orders = "";
+    function log(m, s){
+        orders += (m + "," + s + "|");
+        document.cookie = "orders=" + orders + ";path=/";
+        console.log(orders);
+    }
+</script>
 <section class="header">
     <div class="container">
         <nav class="navbar navbar-expand-lg navbar-dark font-header-fit">
@@ -26,14 +34,17 @@
                             <a class="nav-link text-color-green" href="/">Strona główna<span class="sr-only"></span></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link act text-color-light" href="menu/">Menu</a>
+                            <a class="nav-link act text-color-light" href="/menu/">Menu</a>
                         </li>
                         {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link text-color-orange" href="{% url 'logout' %}">Wyloguj</a>
+                            <a class="nav-link text-color-orange" href="/cart/">Koszyk</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-color-orange disabled"
+                            <a class="nav-link text-color-green" href="{% url 'logout' %}">Wyloguj</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-color-light disabled"
                                style="color: #f0b30f; text-transform: capitalize;"> | {{ user.username }}</a>
                         </li>
                         {% else %}
@@ -51,26 +62,60 @@
               d="M0,160L80,138.7C160,117,320,75,480,85.3C640,96,800,160,960,181.3C1120,203,1280,181,1360,170.7L1440,160L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z">
         </path>
     </svg>
-    <div class="text-center solid-bg">
+    <div class="text-center position-relative solid-bg">
         <h1 style="font-size: 4rem; padding-bottom: 50px;">
             <span class="text-color-green-border">Ce</span><span class="text-color-light-border">nn</span><span
                 class="text-color-orange-border">ik</span>
         </h1>
-        <div class="d-flex justify-content-center align-items-center">
-            <table class="table">
-                <tbody>
+        <div class="d-flex px-2">
+            <div class="container">
                 {% for m in menu %}
-                <tr>
-                    <td>
-                        <img src="{% static 'img/' %}{{m.dishPicture}}" class="img-thumbnail" width="30%">
-                    </td>
-                    <td><h3>{{m.dishName}}</h3></td>
-                    <td><h3>{{m.dishPrice}} PLN</h3></td>
-                    <td><h5><i>{{m.dishDescription}}</i></h5></td>
-                </tr>
+                <div class="row menu-row">
+                    <div class="d-flex col justify-content-center align-items-center">
+                        <img src="{% static 'img/' %}{{m.dishPicture}}" class="img-thumbnail" width="60%">
+                    </div>
+                    <div class="d-flex col justify-content-center align-items-center">
+                        <h3>{{m.dishName}}</h3>
+                    </div>
+                    <div class="d-flex col justify-content-center align-items-center">
+                        <h3>{{m.dishPrice}} PLN</h3>
+                    </div>
+                    <div class="d-flex col justify-content-center align-items-center">
+                        <h5><i>{{m.dishDescription}}</i></h5>
+                    </div>
+                    {% if user.is_authenticated %}
+                    <!-- Modal -->
+                    <div class="modal fade" id="modal{{m.id}}" tabindex="-1" role="dialog"
+                         aria-labelledby="exampleModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Szczegóły</h5>
+                                </div>
+                                <div class="modal-body">
+                                    {{m.dishName}}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij
+                                    </button>
+                                    <button type="button" onclick="log('{{m.id}}', 'mieszany');" class="btn btn-primary">Dodaj do koszyka</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex col justify-content-center align-items-center">
+                        <button class="btn cart-btn" data-toggle="modal" data-target="#modal{{m.id}}">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor"
+                                 class="bi bi-cart-plus-fill" viewBox="0 0 16 16">
+                                <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zM9 5.5V7h1.5a.5.5 0 0 1 0 1H9v1.5a.5.5 0 0 1-1 0V8H6.5a.5.5 0 0 1 0-1H8V5.5a.5.5 0 0 1 1 0z"/>
+                            </svg>
+                        </button>
+                    </div>
+                    {% endif %}
+                </div>
                 {% endfor %}
-                </tbody>
-            </table>
+            </div>
         </div>
     </div>
 </section>
