@@ -1,7 +1,7 @@
 {% extends 'tmpl.html' %}
 {% block content %}
 {% load static %}
-<body onload="load();">
+<body>
 <script>
     function getCookie(cookieName) {
         let cookie = {};
@@ -12,9 +12,11 @@
         return cookie[cookieName];
     }
 
-    function load(){
-        let cookies = document.cookie;
-        document.getElementById("orders").innerHTML = getCookie('orders');
+    function del(index){
+        let orders = JSON.parse(getCookie('orders'));
+        orders.splice(index, 1);
+        document.cookie = "orders=" + JSON.stringify(orders) + ";path=/";
+        location.reload();
     }
 </script>
 <section class="header">
@@ -72,7 +74,40 @@
     <div class="text-center position-relative solid-bg">
         <div class="d-flex px-2">
             <div class="container">
-                <p id="orders"></p>
+                <h1 style="font-size: 4rem; padding-bottom: 50px;">
+                    <span class="text-color-green-border">Ko</span><span class="text-color-light-border">sz</span><span
+                        class="text-color-orange-border">yk</span>
+                </h1>
+                {% if cart|length == 0 %}
+                <span class="text-color-dark font-header-fit">Pusto :(</span>
+                {% endif %}
+                {% for c in cart %}
+                <div class="row menu-row">
+                    <div class="d-flex col justify-content-center align-items-center">
+                        <img src="{% static 'img/' %}{{c.order.dishPicture}}" class="img-thumbnail" width="35%">
+                    </div>
+                    <div class="d-flex col justify-content-center align-items-center">
+                        <h3>{{c.order.dishName}}</h3>
+                    </div>
+                    <div class="d-flex col justify-content-center align-items-center">
+                        <h3>{{c.order.dishPrice}} PLN</h3>
+                    </div>
+                    <div class="d-flex col justify-content-center align-items-center">
+                        <h3>{{c.sauce}}</h3>
+                    </div>
+                    <div class="d-flex col justify-content-center align-items-center">
+                        <h3>{{c.meat}}</h3>
+                    </div>
+                    <div class="d-flex col justify-content-center align-items-center">
+                        <button class="btn cart-btn" onclick="del({{ forloop.counter0 }});">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor"
+                                 class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                                <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
             </div>
         </div>
     </div>

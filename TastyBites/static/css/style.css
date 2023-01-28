@@ -27,6 +27,11 @@ body{
     color: var(--main-color-light);
 }
 
+.text-color-dark{
+    color: var(--main-color-dark);
+}
+
+
 .text-color-orange-border{
     -webkit-text-stroke: 3px var(--main-color-dark);
     color: var(--main-color-orange);

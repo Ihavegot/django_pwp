@@ -3,11 +3,35 @@
 {% load static %}
 <body>
 <script>
-    let orders = "";
-    function log(m, s){
-        orders += (m + "," + s + "|");
-        document.cookie = "orders=" + orders + ";path=/";
-        console.log(orders);
+    function getCookie(cookieName) {
+        let cookie = {};
+        document.cookie.split(';').forEach(function(el) {
+          let [key,value] = el.split('=');
+          cookie[key.trim()] = value;
+        })
+        return cookie[cookieName];
+    }
+
+    let orders = []
+
+    function log(o){
+        let sos = document.getElementById('sos'+o).value;
+        let mieso = document.getElementById('mieso'+o).value;
+        if(document.cookie.includes('orders')){
+            if(getCookie('orders') == ''){
+                orders.push({'order':o,'sauce':sos, 'meat':mieso});
+                document.cookie = "orders=" + JSON.stringify(orders) + ";path=/";
+            }else{
+                orders = JSON.parse(getCookie('orders'));
+                orders.push({'order':o,'sauce':sos, 'meat':mieso});
+                document.cookie = "orders=" + JSON.stringify(orders) + ";path=/";
+            }
+        }else{
+            document.cookie = "orders=;path=/";
+            orders.push({'order':o,'sauce':sos, 'meat':mieso});
+            document.cookie = "orders=" + JSON.stringify(orders) + ";path=/";
+        }
+
     }
 </script>
 <section class="header">
@@ -93,12 +117,28 @@
                                     <h5 class="modal-title" id="exampleModalLabel">Szczegóły</h5>
                                 </div>
                                 <div class="modal-body">
-                                    {{m.dishName}}
+                                    <h4>{{m.dishName}}</h4>
+                                    <div class="row justify-content-md-center align-items-center">
+                                        <label class="col-auto">Mięso</label>
+                                        <select id="mieso{{m.pk}}" class="form-select col" aria-label="Miesa">
+                                          <option selected value="Kurczak">Kurczak</option>
+                                          <option value="Baranina">Baranina</option>
+                                          <option value="Mieszane">Mieszane</option>
+                                        </select>
+                                    </div>
+                                    <div class="row justify-content-md-center align-items-center">
+                                        <label class="col-auto">Sos</label>
+                                        <select id="sos{{m.pk}}" class="form-select col" aria-label="Sosy">
+                                          <option selected value="Łagodny">Łagodny</option>
+                                          <option value="Mieszany">Mieszany</option>
+                                          <option value="Ostry">Ostry</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij
                                     </button>
-                                    <button type="button" onclick="log('{{m.id}}', 'mieszany');" class="btn btn-primary">Dodaj do koszyka</button>
+                                    <button type="button" onclick="log({{m.pk}});" class="btn cart-btn">Dodaj do koszyka</button>
                                 </div>
                             </div>
                         </div>

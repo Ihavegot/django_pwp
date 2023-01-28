@@ -1,3 +1,5 @@
+import json
+
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect
@@ -13,7 +15,16 @@ def menu(request):
 
 @login_required(login_url='')
 def shoppingCart(request):
-    template = render_to_string('cart.html', {'user': request.user})
+    try:
+        cookie = json.loads(request.COOKIES.get('orders'))
+        orders = []
+        for c in cookie:
+            d = {'order': Menu.objects.get(pk=c['order']), 'sauce': c['sauce'], 'meat': c['meat']}
+            orders.append(d)
+    except Exception as e:
+        orders = []
+
+    template = render_to_string('cart.html', {'user': request.user, 'cart': orders})
     return HttpResponse(template)
 
 
