@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Restaurant',
+    'django.forms',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,5 @@ INTERNAL_IPS = ['127.0.0.1']
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+
+FORM_RENDERER = "django.forms.renderers.TemplatesSetting"
