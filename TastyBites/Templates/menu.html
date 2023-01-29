@@ -63,9 +63,15 @@
                             <a class="nav-link act text-color-light" href="/menu/">Menu</a>
                         </li>
                         {% if user.is_authenticated %}
+                        {% if not user.is_superuser %}
                         <li class="nav-item">
                             <a class="nav-link text-color-orange" href="/cart/">Koszyk</a>
                         </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link text-color-orange" href="/orders/">Obsługa zamówień</a>
+                        </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link text-color-green" href="{% url 'logout' %}">Wyloguj</a>
                         </li>

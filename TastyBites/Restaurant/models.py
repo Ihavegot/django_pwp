@@ -18,5 +18,6 @@ class Order(models.Model):
     orders = models.JSONField()
     phone = models.CharField(max_length=15)
     adres = models.CharField(max_length=100)
-    info = models.TextField()
+    info = models.TextField(null=True)
     date = models.DateTimeField(default=timezone.now)
+    completed = models.BooleanField(default=False)

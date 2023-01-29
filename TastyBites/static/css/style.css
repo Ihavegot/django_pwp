@@ -32,6 +32,10 @@ body{
     color: var(--main-color-dark);
 }
 
+.text-color-error{
+    color: var(--main-color-error);
+}
+
 
 .text-color-orange-border{
     -webkit-text-stroke: 3px var(--main-color-dark);
@@ -94,7 +98,7 @@ body{
     position: relative;
     background-image: url("/static/img/index_solid_bg.jpeg");
     width: 100%;
-    height: 80vh;
+    height: 100vh;
     background-position: center;
     background-size: cover;
 }

@@ -53,9 +53,15 @@
                             <a class="nav-link text-color-light" href="/menu/">Menu</a>
                         </li>
                         {% if user.is_authenticated %}
+                        {% if not user.is_superuser %}
                         <li class="nav-item">
                             <a class="nav-link text-color-orange" href="/cart/">Koszyk</a>
                         </li>
+                        {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link text-color-orange" href="/orders/">Obsługa zamówień</a>
+                        </li>
+                        {% endif %}
                         <li class="nav-item">
                             <a class="nav-link text-color-green" href="{% url 'logout' %}">Wyloguj</a>
                         </li>
@@ -115,6 +121,7 @@
                     </form>
 
                 </div>
+                {% if not user.is_superuser %}
                 <div class="row my-3 font-header-fit">
                     <div class="col">
                         Historia zamównień
@@ -122,16 +129,24 @@
                 </div>
                 {% for h in history %}
                 <div class="row my-3 font-header-fit">
-                    <div class="col" style="border-top: 1px solid black;">
+                    <div class="row" style="border-top: 1px solid black;">
                         <div class="col">
                             {{ h.history.date }}
                         </div>
                         <div class="col">
                             {{ h.kebabs }}
                         </div>
+                        <div class="col">
+                            {% if h.completed %}
+                            <span class="text-color-green font-header-fit">Zrealizowane</span>
+                            {% else %}
+                            <span class="text-color-error font-header-fit">W trakcie realizacji</span>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
+                {% endif %}
             </div>
         </div>
     </div>
