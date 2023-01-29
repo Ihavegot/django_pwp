@@ -128,7 +128,7 @@
                         <h5><i>{{m.dishDescription}}</i></h5>
                     </div>
 
-                    {% if user.is_authenticated %}
+                    {% if user.is_authenticated and not user.is_superuser %}
                     <!-- Modal konkretny kebab -->
                     <div class="modal fade" id="modal{{m.id}}" tabindex="-1" role="dialog"
                          aria-labelledby="exampleModalLabel">

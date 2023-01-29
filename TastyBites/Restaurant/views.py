@@ -4,7 +4,7 @@ import json
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views import generic
@@ -67,23 +67,45 @@ def shoppingCart(request):
 
 @login_required(login_url='')
 def orders(request):
-    if request.user.is_superuser:
-        template = render_to_string('orders.html')
-        return HttpResponse(template)
+    if not request.user.is_superuser:
+        return redirect('/')
 
-    return redirect('/')
+    ord = Order.objects.all()
+    history = []
+    for o in ord:
+        kebabs = ""
+        for i in o.orders:
+            kebabs += Menu.objects.get(pk=i['order']).dishName + " "
+        if not o.completed:
+            history.insert(0,
+                           {'id': o.pk, 'kebabs': kebabs, 'history': o, 'phone': o.phone, 'adres': o.adres,
+                            'info': o.info}
+                           )
+        else:
+            history.append(
+                {'id': o.pk, 'kebabs': kebabs, 'history': o, 'phone': o.phone, 'adres': o.adres, 'info': o.info}
+            )
+
+    if request.method == 'POST':
+        edt = get_object_or_404(Order, pk=request.POST['id'])
+        edt.completed = True
+        edt.save()
+        return redirect('/orders/')
+
+    template = render(request, 'orders.html', {'user': request.user, 'history': history})
+    return HttpResponse(template)
 
 
 @login_required(login_url='')
 def userpanel(request):
     ord = Order.objects.all()
     history = []
-    for h in ord:
-        if h.username == request.user:
+    for o in ord:
+        if o.username == request.user:
             kebabs = ""
-            for i in h.orders:
+            for i in o.orders:
                 kebabs += Menu.objects.get(pk=i['order']).dishName + " "
-            history.append({'kebabs': kebabs, 'history': h, 'completed': h.completed})
+            history.append({'kebabs': kebabs, 'history': o, 'completed': o.completed})
 
     if request.method == 'POST':
         rem = User.objects.get(username=request.user)
