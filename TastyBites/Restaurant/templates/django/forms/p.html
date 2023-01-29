@@ -6,7 +6,6 @@
     {% if field.label %}{{ field.label_tag }}{% endif %}
     {{ field }}
     {% if field.help_text %}
-      <span class="helptext">a{{ field.help_text|safe }}</span>
     {% endif %}
     {% if forloop.last %}
       {% for field in hidden_fields %}{{ field }}{% endfor %}

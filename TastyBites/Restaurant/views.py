@@ -1,35 +1,16 @@
 import datetime
 import json
 
-from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.core import serializers
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
+from django.urls import reverse_lazy
+from django.views import generic
 
-from .forms import AddOrderForm
+from .forms import AddOrderForm, SignUpFormLabels
 from .models import Menu, Order
-
-
-def set_cookie(response, key, value, days_expire=7):
-    if days_expire is None:
-        max_age = 365 * 24 * 60 * 60
-    else:
-        max_age = days_expire * 24 * 60 * 60
-    expires = datetime.datetime.strftime(
-        datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age),
-        "%a, %d-%b-%Y %H:%M:%S GMT",
-    )
-    response.set_cookie(
-        key,
-        value,
-        path='/',
-        max_age=max_age,
-        expires=expires,
-        domain=settings.SESSION_COOKIE_DOMAIN,
-        secure=settings.SESSION_COOKIE_SECURE or None,
-    )
 
 
 def menu(request):
@@ -43,10 +24,10 @@ def menu(request):
 def shoppingCart(request):
     # Get orders for user
     cookie = []
+    total = 0
     try:
         cookie = json.loads(request.COOKIES.get('orders'))
         orders = []
-        total = 0
         for c in cookie:
             temp = Menu.objects.get(pk=c['order'])
             d = {'order': temp, 'sauce': c['sauce'], 'meat': c['meat']}
@@ -88,3 +69,30 @@ def orders(request):
         return HttpResponse(template)
 
     return redirect('/')
+
+
+@login_required(login_url='')
+def userpanel(request):
+    ord = Order.objects.all()
+    history = []
+    for h in ord:
+        if h.username == request.user:
+            kebabs = ""
+            for i in h.orders:
+                kebabs += Menu.objects.get(pk=i['order']).dishName + " "
+            history.append({'kebabs': kebabs, 'history': h})
+
+    if request.method == 'POST':
+        rem = User.objects.get(username=request.user)
+        if rem is not None:
+            rem.delete()
+            return redirect('/')
+
+    template = render(request, 'userpanel.html', {'user': request.user, 'history': history})
+    return HttpResponse(template)
+
+
+class SignUpView(generic.CreateView):
+    form_class = SignUpFormLabels
+    success_url = reverse_lazy("login")
+    template_name = "registration/signup.html"

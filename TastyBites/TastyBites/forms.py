@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 
 class LoginFormLabels(AuthenticationForm):
@@ -8,4 +8,4 @@ class LoginFormLabels(AuthenticationForm):
         self.fields['password'].label = "Hasło"
         self.error_messages['invalid_login'] = "Niepoprawny login lub hasło!"
         self.error_messages['inactive'] = "Takie konto nie istnieje!"
-        # print(self.error_messages)
+        print(self.error_messages)
