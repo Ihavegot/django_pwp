@@ -3,6 +3,7 @@
     --main-color-green: #49a04c;
     --main-color-dark: #0D1F22;
     --main-color-light: #F6F2F8;
+    --main-color-error: #F14156;
 }
 
 *{
@@ -149,4 +150,17 @@ body{
     background-color: var(--main-color-orange);
     color: var(--main-color-dark);
     font-weight: bold;
+}
+
+.link-color{
+    color: var(--main-color-green);
+}
+
+.link-color:hover{
+    color: var(--main-color-orange);
+}
+
+.error-label{
+    color: var(--main-color-error);
+    font-style: italic;
 }

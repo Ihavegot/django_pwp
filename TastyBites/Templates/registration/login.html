@@ -18,9 +18,11 @@
             <form method="POST">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <button class="btn login-btn" type="submit">Zaloguj</button>
+                <span>Nie masz konta? <a class="link-color" href="/signup">Zarejestruj się!</a></span>
+                <div class="my-3">
+                    <button class="btn login-btn" type="submit">Zaloguj</button>
+                </div>
             </form>
-            <a href="/signup">Rejstracja</a>
         </div>
     </div>
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
