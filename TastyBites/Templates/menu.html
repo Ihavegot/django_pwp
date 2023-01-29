@@ -18,7 +18,7 @@
         let sos = document.getElementById('sos'+o).value;
         let mieso = document.getElementById('mieso'+o).value;
         if(document.cookie.includes('orders')){
-            if(getCookie('orders') == ''){
+            if(getCookie('orders') == '' || getCookie('orders') == '""'){
                 orders.push({'order':o,'sauce':sos, 'meat':mieso});
                 document.cookie = "orders=" + JSON.stringify(orders) + ";path=/";
             }else{

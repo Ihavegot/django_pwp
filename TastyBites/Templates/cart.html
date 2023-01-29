@@ -18,6 +18,7 @@
         document.cookie = "orders=" + JSON.stringify(orders) + ";path=/";
         location.reload();
     }
+
 </script>
 <section class="header">
     <div class="container">
@@ -80,6 +81,8 @@
                 </h1>
                 {% if cart|length == 0 %}
                 <span class="text-color-dark font-header-fit">Pusto :(</span>
+                {% else %}
+                <span class="text-color-dark font-header-fit">Łączny koszt zamówienia {{total}} PLN</span>
                 {% endif %}
                 {% for c in cart %}
                 <div class="row menu-row">
@@ -108,6 +111,32 @@
                     </div>
                 </div>
                 {% endfor %}
+                {% if cart|length > 0 %}
+                <form action="#" method="POST">
+                    {% csrf_token %}
+                    <div class="container">
+                        <div>
+                            <span class="font-header-fit">Telefon</span>
+                            <div>
+                                {{ form.phone }}
+                            </div>
+                        </div>
+                        <div>
+                            <span class="font-header-fit">Adres dostawy</span>
+                            <div>
+                                {{ form.adres }}
+                            </div>
+                        </div>
+                        <div>
+                            <span class="font-header-fit">Dodatkowe informacje</span>
+                            <div>
+                                {{ form.info }}
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn cart-btn my-4" type="submit">Zamow</button>
+                </form>
+                {% endif %}
             </div>
         </div>
     </div>
