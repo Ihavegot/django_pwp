@@ -14,26 +14,24 @@
 
     let orders = []
 
-    function log(o){
+    function log(o, u){
         let sos = document.getElementById('sos'+o).value;
         let mieso = document.getElementById('mieso'+o).value;
         if(document.cookie.includes('orders')){
             if(getCookie('orders') == '' || getCookie('orders') == '""'){
-                orders.push({'order':o,'sauce':sos, 'meat':mieso});
+                orders.push({'order':o,'sauce':sos, 'meat':mieso, 'user': u});
                 document.cookie = "orders=" + JSON.stringify(orders) + ";path=/";
             }else{
                 orders = JSON.parse(getCookie('orders'));
-                orders.push({'order':o,'sauce':sos, 'meat':mieso});
+                orders.push({'order':o,'sauce':sos, 'meat':mieso, 'user': u});
                 document.cookie = "orders=" + JSON.stringify(orders) + ";path=/";
             }
         }else{
             document.cookie = "orders=;path=/";
-            orders.push({'order':o,'sauce':sos, 'meat':mieso});
+            orders.push({'order':o,'sauce':sos, 'meat':mieso, 'user': u});
             document.cookie = "orders=" + JSON.stringify(orders) + ";path=/";
         }
-
     }
-
 
 </script>
 <section class="header">
@@ -65,7 +63,9 @@
                         {% if user.is_authenticated %}
                         {% if not user.is_superuser %}
                         <li class="nav-item">
-                            <a class="nav-link text-color-orange" href="/cart/">Koszyk</a>
+                            <a class="nav-link text-color-orange" href="/cart/">
+                                Koszyk
+                            </a>
                         </li>
                         {% else %}
                         <li class="nav-item">
@@ -108,8 +108,9 @@
                         <div class="modal-content">
                             <h3 class="my-2">Dodano do koszyka</h3>
                             <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary mx-auto" data-dismiss="modal">Close</button>
-                        </div>
+                                <button type="button" class="btn btn-secondary mx-auto" data-dismiss="modal">Close
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -159,7 +160,7 @@
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Zamknij
                                     </button>
-                                    <button type="button" onclick="log({{m.pk}});" class="btn cart-btn"
+                                    <button type="button" onclick="log({{m.pk}}, '{{user}}');" class="btn cart-btn"
                                             data-dismiss="modal" data-toggle="modal" data-target=".bd-example-modal-sm">
                                         Dodaj do
                                         koszyka

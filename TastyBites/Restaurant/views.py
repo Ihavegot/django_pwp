@@ -29,11 +29,13 @@ def shoppingCart(request):
         try:
             cookie = json.loads(request.COOKIES.get('orders'))
             orders = []
+
             for c in cookie:
-                temp = Menu.objects.get(pk=c['order'])
-                d = {'order': temp, 'sauce': c['sauce'], 'meat': c['meat']}
-                orders.append(d)
-                total += int(temp.dishPrice)
+                if str(request.user) == str(c['user']):
+                    temp = Menu.objects.get(pk=c['order'])
+                    d = {'order': temp, 'sauce': c['sauce'], 'meat': c['meat']}
+                    orders.append(d)
+                    total += int(temp.dishPrice)
         except Exception as e:
             print(e)
             orders = []
@@ -74,16 +76,19 @@ def orders(request):
     history = []
     for o in ord:
         kebabs = ""
+        fullPrice = 0
         for i in o.orders:
             kebabs += Menu.objects.get(pk=i['order']).dishName + " "
+            fullPrice += int(Menu.objects.get(pk=i['order']).dishPrice)
         if not o.completed:
             history.insert(0,
                            {'id': o.pk, 'kebabs': kebabs, 'history': o, 'phone': o.phone, 'adres': o.adres,
-                            'info': o.info}
+                            'info': o.info, 'fullPrice': fullPrice}
                            )
         else:
             history.append(
-                {'id': o.pk, 'kebabs': kebabs, 'history': o, 'phone': o.phone, 'adres': o.adres, 'info': o.info}
+                {'id': o.pk, 'kebabs': kebabs, 'history': o, 'phone': o.phone, 'adres': o.adres, 'info': o.info,
+                 'fullPrice': fullPrice}
             )
 
     if request.method == 'POST':

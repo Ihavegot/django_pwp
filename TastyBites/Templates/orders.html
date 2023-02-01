@@ -18,15 +18,6 @@
         document.cookie = "orders=" + JSON.stringify(orders) + ";path=/";
         location.reload();
     }
-
-
-
-
-
-
-
-
-
 </script>
 <section class="header">
     <div class="container">
@@ -61,14 +52,14 @@
                         </li>
                         {% else %}
                         <li class="nav-item">
-                            <a class="nav-link text-color-orange" href="/orders/">Obsługa zamówień</a>
+                            <a class="nav-link act text-color-orange" href="/orders/">Obsługa zamówień</a>
                         </li>
                         {% endif %}
                         <li class="nav-item">
                             <a class="nav-link text-color-green" href="{% url 'logout' %}">Wyloguj</a>
                         </li>
                         <li class="nav-item">
-                            <a href="/userpanel" class="nav-link act text-color-light"
+                            <a href="/userpanel" class="nav-link text-color-light"
                                style="color: #f0b30f; text-transform: capitalize;"> | {{ user.username }}</a>
                         </li>
                         {% else %}
@@ -89,23 +80,30 @@
     <div class="text-center position-relative solid-bg">
         <div class="d-flex px-2">
             <div class="container">
+                <h1 style="font-size: 4rem; padding-bottom: 50px;">
+                    <span class="text-color-green-border">Zam</span><span class="text-color-light-border">ówie</span><span
+                        class="text-color-orange-border">nia</span>
+                </h1>
                 {% for h in history %}
                 <div class="row my-3 font-header-fit">
                     <div class="row" style="border-top: 1px solid black;">
                         <div class="col">
-                            Zamównienie #{{ h.history.id }}
+                            {{ h.kebabs }}
                         </div>
                         <div class="col">
-                            {{ h.kebabs }}
+                            {{ h.fullPrice }} PLN
                         </div>
                         <div class="col">
                             {{ h.history.phone }}
                         </div>
                         <div class="col">
-                            {{ h.history.adress }}
+                            {{ h.history.adres }}
                         </div>
                         <div class="col">
                             {{ h.history.date }}
+                        </div>
+                        <div class="col">
+                            {{ h.history.info }}
                         </div>
                         <div class="col">
                             {% if h.history.completed %}

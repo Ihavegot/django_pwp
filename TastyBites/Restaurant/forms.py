@@ -7,7 +7,7 @@ from .models import Order
 class AddOrderForm(forms.Form):
     phone = forms.CharField(max_length=15, required=True, label='Telefon kontaktowy')
     adres = forms.CharField(max_length=100, required=True, label='Adres dostarczenia')
-    info = forms.CharField(widget=forms.Textarea)
+    info = forms.CharField(widget=forms.Textarea, required=False)
 
 
 class SignUpFormLabels(UserCreationForm):
