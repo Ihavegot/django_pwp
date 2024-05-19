@@ -1,1 +1,1 @@
-# django_pwp
+# Simple Django kebab store web page
